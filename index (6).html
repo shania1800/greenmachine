@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Green Machine // Too Fast. Too Kleen.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #060a08;
+    --surface: rgba(20, 32, 26, 0.4);
+    --surface-2: rgba(30, 48, 38, 0.5);
+    --border: rgba(120, 255, 170, 0.12);
+    --border-strong: rgba(120, 255, 170, 0.28);
+    --green: #00ff88;
+    --green-2: #4dffaa;
+    --green-deep: #00cc6f;
+    --green-glow: rgba(0, 255, 136, 0.4);
+    --lime: #c9ff3a;
+    --lime-glow: rgba(201, 255, 58, 0.45);
+    --ink: #e8fff2;
+    --ink-2: #a8d4bc;
+    --ink-dim: #6a9080;
+    --display: 'Anton', 'Inter', sans-serif;
+    --body: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: var(--body); font-size: 15px; line-height: 1.6;
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+  .bg-aurora {
+    position: fixed; inset: 0; z-index: -2;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 0%, rgba(0, 255, 136, 0.08), transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 30%, rgba(201, 255, 58, 0.05), transparent 70%),
+      radial-gradient(ellipse 70% 80% at 50% 100%, rgba(0, 204, 111, 0.06), transparent 60%),
+      var(--bg);
+  }
+  .bg-noise {
+    position: fixed; inset: 0; z-index: -1;
+    opacity: 0.5; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 1 0 0 0 0 0.6 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    background: rgba(6, 10, 8, 0.6);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 1440px; margin: 0 auto;
+    padding: 14px 32px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--display); letter-spacing: 0.08em;
+    font-size: 18px; color: var(--ink);
+    cursor: pointer;
+  }
+  .brand-mark {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--green), var(--green-deep));
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display); color: var(--bg); font-size: 14px;
+    box-shadow: 0 0 24px var(--green-glow);
+  }
+  .nav-links {
+    display: flex; gap: 24px; list-style: none;
+    font-size: 13px; font-weight: 500;
+  }
+  .nav-links a {
+    color: var(--ink-2); text-decoration: none;
+    transition: color 0.2s; letter-spacing: 0.02em;
+    cursor: pointer;
+    padding: 4px 0;
+  }
+  .nav-links a:hover { color: var(--green); }
+  .nav-meta {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--ink-dim); display: flex; align-items: center; gap: 8px;
+  }
+  .live-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green); box-shadow: 0 0 8px var(--green);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .hero {
+    position: relative;
+    padding: 40px 24px 0;
+    overflow: hidden;
+  }
+  .hero-banner-wrap {
+    position: relative;
+    width: 100%; max-width: 1280px;
+    margin: 0 auto;
+    aspect-ratio: 2.5 / 1;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(0, 255, 136, 0.25),
+      0 30px 80px rgba(0, 255, 136, 0.2),
+      0 0 120px rgba(0, 255, 136, 0.15);
+    animation: heroEntry 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  @keyframes heroEntry {
+    from { opacity: 0; transform: translateY(40px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .hero-banner-wrap img {
+    width: 100%; height: 100%; display: block; object-fit: cover;
+  }
+
+  .tminus-bar {
+    max-width: 1280px;
+    margin: 32px auto 0;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 16px;
+    padding: 20px 32px;
+    backdrop-filter: blur(16px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    animation: fadeUp 1s 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .tminus-label { display: flex; align-items: center; gap: 14px; }
+  .tminus-pulse {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 12px var(--green);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  .tminus-text {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+  .tminus-text strong {
+    display: block;
+    font-family: var(--display);
+    font-size: 20px;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+    margin-top: 4px;
+    font-weight: 400;
+  }
+  .tminus-grid { display: flex; gap: 16px; }
+  .tminus-unit { text-align: center; min-width: 60px; }
+  .tminus-value {
+    font-family: var(--display);
+    font-size: 36px;
+    line-height: 1;
+    background: linear-gradient(180deg, var(--ink) 0%, var(--green) 130%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .tminus-name {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--ink-dim);
+    letter-spacing: 0.2em;
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  .manifesto {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 120px 24px 80px;
+    text-align: center;
+    scroll-margin-top: 80px;
+  }
+  .manifesto-eyebrow {
+    font-family: var(--mono);
+    font-size: 12px; color: var(--green);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .manifesto h1 {
+    font-family: var(--display);
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 1.05;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    margin-bottom: 40px;
+    font-weight: 400;
+  }
+  .manifesto h1 .green-text { color: var(--green); font-style: italic; }
+  .manifesto-body {
+    max-width: 720px;
+    margin: 0 auto;
+    font-size: 19px;
+    line-height: 1.7;
+    color: var(--ink-2);
+    font-weight: 300;
+  }
+  .manifesto-body p { margin-bottom: 20px; }
+  .manifesto-body strong { color: var(--green); font-weight: 600; }
+  .manifesto-slogan {
+    margin-top: 56px;
+    font-family: var(--display);
+    font-size: clamp(32px, 4vw, 52px);
+    color: var(--green);
+    letter-spacing: 0.04em;
+    font-style: italic;
+  }
+
+  section {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 80px 32px;
+    position: relative;
+    scroll-margin-top: 80px;
+  }
+  .sec-head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 56px; gap: 24px; flex-wrap: wrap;
+  }
+  .sec-eyebrow {
+    font-family: var(--mono);
+    font-size: 12px; color: var(--green);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .sec-eyebrow::before {
+    content: ''; width: 24px; height: 1px;
+    background: var(--green);
+  }
+  .sec-title {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1; letter-spacing: 0.01em;
+    color: var(--ink);
+  }
+  .sec-title .accent { color: var(--green); font-style: italic; }
+  .sec-title .lime-accent { color: var(--lime); font-style: italic; }
+  .sec-id {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--ink-dim); letter-spacing: 0.1em;
+  }
+  .sec-lede {
+    color: var(--ink-2);
+    font-size: 15px;
+    margin-top: -32px;
+    margin-bottom: 32px;
+    font-style: italic;
+    max-width: 720px;
+  }
+
+  /* ROAST */
+  .roast-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .roast-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+    backdrop-filter: blur(16px);
+    position: relative;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  .roast-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-strong);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+  .roast-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--rival-color, var(--green));
+    opacity: 0.6;
+  }
+  .roast-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .roast-team {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--display);
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    color: var(--ink);
+  }
+  .roast-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--rival-color);
+    box-shadow: 0 0 14px var(--rival-color);
+  }
+  .roast-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .roast-nickname {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--rival-color);
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+  .roast-body {
+    color: var(--ink-2);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .roast-body strong { color: var(--ink); font-weight: 600; }
+  .roast-card.self {
+    border-color: var(--green);
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), var(--surface));
+  }
+  .roast-card.self::before {
+    height: 4px;
+    background: linear-gradient(90deg, var(--green-deep), var(--green), var(--lime));
+    opacity: 1;
+  }
+
+  /* MASCOT */
+  .mascot-feature {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 48px;
+    backdrop-filter: blur(16px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  .mascot-art {
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    position: relative;
+    box-shadow: 0 0 0 1px rgba(0, 255, 136, 0.2), 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+  .mascot-art img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .mascot-info h3 {
+    font-family: var(--display);
+    font-size: 44px; color: var(--ink);
+    line-height: 1; margin-bottom: 16px;
+    letter-spacing: 0.01em;
+  }
+  .mascot-info h3 .green-text { color: var(--green); }
+  .mascot-info p {
+    color: var(--ink-2);
+    font-size: 15px; line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .mascot-specs {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .spec-item {
+    border-top: 1px solid var(--border);
+    padding-top: 12px;
+  }
+  .spec-label {
+    font-family: var(--mono); font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .spec-value {
+    font-family: var(--display); font-size: 18px;
+    color: var(--green); letter-spacing: 0.02em;
+  }
+
+  /* TRACKS — both anthem & diss */
+  .track-card {
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 40px;
+    backdrop-filter: blur(16px);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 28px; align-items: center;
+    position: relative; overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  .track-card.anthem {
+    background: linear-gradient(135deg, var(--surface-2), var(--surface));
+  }
+  .track-card.anthem::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -10%;
+    width: 60%; height: 200%;
+    background: radial-gradient(ellipse, rgba(0, 255, 136, 0.12), transparent 50%);
+    pointer-events: none;
+  }
+  .track-card.diss {
+    background: linear-gradient(135deg, rgba(40, 50, 25, 0.5), rgba(20, 30, 15, 0.4));
+    border-color: rgba(201, 255, 58, 0.18);
+  }
+  .track-card.diss::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -10%;
+    width: 60%; height: 200%;
+    background: radial-gradient(ellipse, rgba(201, 255, 58, 0.1), transparent 50%);
+    pointer-events: none;
+  }
+
+  .play-btn {
+    width: 84px; height: 84px;
+    border-radius: 50%;
+    border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+  .play-btn.anthem-btn {
+    background: var(--green);
+    box-shadow: 0 12px 32px rgba(0, 255, 136, 0.35);
+  }
+  .play-btn.diss-btn {
+    background: var(--lime);
+    box-shadow: 0 12px 32px var(--lime-glow);
+  }
+  .play-btn:hover { transform: scale(1.06); }
+  .play-btn::before {
+    content: '';
+    width: 0; height: 0;
+    border-left: 22px solid var(--bg);
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    margin-left: 6px;
+  }
+  .play-btn.playing::before {
+    border: none;
+    width: 6px; height: 22px;
+    background: var(--bg);
+    margin: 0;
+    box-shadow: 12px 0 0 var(--bg);
+    margin-left: -3px;
+  }
+  .track-info { position: relative; z-index: 1; min-width: 0; }
+  .track-tag {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  .anthem .track-tag { color: var(--green); }
+  .diss .track-tag { color: var(--lime); }
+  .track-title {
+    font-family: var(--display); font-size: 28px;
+    color: var(--ink); letter-spacing: 0.02em;
+    margin-bottom: 6px;
+  }
+  .track-sub {
+    color: var(--ink-2); font-size: 13px; font-weight: 300;
+    margin-bottom: 8px;
+  }
+  .track-time {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--ink-dim); letter-spacing: 0.1em;
+  }
+  .waveform {
+    display: flex; gap: 3px; align-items: center;
+    height: 60px; width: 200px;
+    position: relative; z-index: 1;
+  }
+  .waveform span {
+    flex: 1;
+    border-radius: 2px;
+    opacity: 0.4;
+    transition: all 0.2s;
+  }
+  .anthem .waveform span {
+    background: linear-gradient(180deg, var(--green), var(--green-deep));
+  }
+  .diss .waveform span {
+    background: linear-gradient(180deg, var(--lime), #8fbf1f);
+  }
+  .waveform.active span {
+    opacity: 1;
+    animation: wave 1.4s ease-in-out infinite;
+  }
+  @keyframes wave {
+    0%, 100% { height: 20%; }
+    50% { height: 100%; }
+  }
+  .track-stack {
+    display: grid;
+    gap: 20px;
+  }
+
+  /* BATTLE CRY */
+  .battlecry {
+    background: linear-gradient(135deg, var(--surface-2), var(--surface));
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 80px 48px;
+    backdrop-filter: blur(16px);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .battlecry::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0, 255, 136, 0.1), transparent 60%);
+    pointer-events: none;
+  }
+  .cry-label {
+    font-family: var(--mono);
+    color: var(--green);
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    margin-bottom: 24px;
+    position: relative;
+  }
+  .cry-text {
+    font-family: var(--display);
+    font-size: clamp(36px, 5vw, 64px);
+    color: var(--ink);
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .cry-text .accent { color: var(--green); }
+  .cry-call {
+    font-family: var(--display);
+    font-size: clamp(28px, 4vw, 44px);
+    color: var(--green);
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    font-style: italic;
+    position: relative;
+  }
+
+  /* STANDINGS */
+  .standings {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px 40px;
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+  }
+  .standings-row {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .standings-row:last-child { border-bottom: none; }
+  .standings-row:hover .stand-team-name { color: var(--green); }
+  .stand-place {
+    font-family: var(--display);
+    font-size: 44px;
+    line-height: 1;
+    color: var(--ink-dim);
+    letter-spacing: 0.02em;
+  }
+  .standings-row.first .stand-place {
+    background: linear-gradient(180deg, var(--lime) 0%, var(--green) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 56px;
+  }
+  .stand-team {
+    display: flex; align-items: center; gap: 14px;
+  }
+  .stand-dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .stand-team-info { min-width: 0; }
+  .stand-team-name {
+    font-family: var(--display);
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+  .standings-row.first .stand-team-name { color: var(--green); }
+  .stand-quip {
+    font-size: 13px;
+    color: var(--ink-2);
+    margin-top: 2px;
+    font-style: italic;
+  }
+  .stand-status {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .stand-status.gold { color: var(--lime); border-color: var(--lime); background: rgba(201, 255, 58, 0.08); }
+  .stand-status.cope { color: var(--ink-dim); }
+
+  /* ENERGY */
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+  }
+  .energy-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 28px 24px;
+    backdrop-filter: blur(16px);
+    transition: all 0.25s ease;
+  }
+  .energy-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--green);
+    box-shadow: 0 12px 32px rgba(0, 255, 136, 0.1);
+  }
+  .energy-icon {
+    font-family: var(--display);
+    font-size: 32px;
+    color: var(--green);
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+  .energy-card h4 {
+    font-family: var(--display);
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .energy-card p {
+    color: var(--ink-2);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  footer {
+    border-top: 1px solid var(--border);
+    margin-top: 80px;
+    background: rgba(0, 0, 0, 0.3);
+  }
+  .footer-inner {
+    max-width: 1440px; margin: 0 auto;
+    padding: 48px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 24px;
+  }
+  .footer-brand-block { display: flex; align-items: center; gap: 16px; }
+  .footer-tag {
+    font-family: var(--mono); font-size: 11px;
+    color: var(--ink-dim); letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .footer-slogan {
+    font-family: var(--display); font-size: 16px;
+    color: var(--green); letter-spacing: 0.08em;
+    font-style: italic;
+  }
+
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    section { padding: 60px 20px; }
+    .manifesto { padding: 80px 20px 40px; }
+    .track-card { grid-template-columns: 1fr; text-align: center; padding: 32px; }
+    .waveform { width: 100%; }
+    .mascot-feature { grid-template-columns: 1fr; padding: 32px; }
+    .tminus-bar { padding: 16px 20px; }
+    .tminus-grid { gap: 10px; }
+    .tminus-value { font-size: 28px; }
+    .tminus-unit { min-width: 48px; }
+    .standings-row { grid-template-columns: 48px 1fr; gap: 14px; }
+    .stand-status { grid-column: 2; justify-self: start; margin-top: 4px; }
+    .stand-place { font-size: 32px; }
+    .standings-row.first .stand-place { font-size: 40px; }
+    .battlecry { padding: 60px 24px; }
+  }
+  @media (max-width: 600px) {
+    .nav-inner { padding: 12px 20px; }
+    .nav-meta { display: none; }
+    .hero { padding: 24px 16px 0; }
+    .footer-inner { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-aurora"></div>
+<div class="bg-noise"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#top">
+      <div class="brand-mark">GM</div>
+      <span>GREEN MACHINE</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#manifesto">Manifesto</a></li>
+      <li><a href="#roast">The Other Five</a></li>
+      <li><a href="#mascot">Overclock</a></li>
+      <li><a href="#sound">Sound System</a></li>
+      <li><a href="#standings">Standings</a></li>
+    </ul>
+    <div class="nav-meta">
+      <span class="live-dot"></span>
+      <span>System Online</span>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-banner-wrap">
+    <img src="assets/green-machine-banner.png" alt="Green Machine — Too Fast. Too Kleen.">
+  </div>
+
+  <div class="tminus-bar">
+    <div class="tminus-label">
+      <span class="tminus-pulse"></span>
+      <div class="tminus-text">
+        T-Minus to Total Domination
+        <strong>The Machine Goes Live</strong>
+      </div>
+    </div>
+    <div class="tminus-grid" id="countdown">
+      <div class="tminus-unit"><div class="tminus-value" id="cd-days">--</div><div class="tminus-name">Days</div></div>
+      <div class="tminus-unit"><div class="tminus-value" id="cd-hours">--</div><div class="tminus-name">Hrs</div></div>
+      <div class="tminus-unit"><div class="tminus-value" id="cd-mins">--</div><div class="tminus-name">Min</div></div>
+      <div class="tminus-unit"><div class="tminus-value" id="cd-secs">--</div><div class="tminus-name">Sec</div></div>
+    </div>
+  </div>
+</header>
+
+<section class="manifesto" id="manifesto">
+  <div class="manifesto-eyebrow">▸ The Manifesto</div>
+  <h1>We are not a team.<br>We are a <span class="green-text">machine.</span></h1>
+  <div class="manifesto-body">
+    <p>
+      Five other teams woke up this week and picked a color. <strong>We woke up and built a system.</strong>
+    </p>
+    <p>
+      Green is not a vibe. Green is a status. The kind of green that makes traffic lights jealous.
+      The kind of green that says <em style="color:var(--green); font-style: normal; font-weight: 600;">go</em>
+      so loud the other teams forget how to leave the start line.
+    </p>
+    <p>
+      We are built different. We are tuned different. And on game day, we are going to make the rest
+      of this company wish they had been smart enough to wear our color.
+    </p>
+  </div>
+  <div class="manifesto-slogan">"Too Fast. Too Kleen."</div>
+</section>
+
+<section id="roast">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow">A Loving Roast</div>
+      <h2 class="sec-title">The Other <span class="accent">Five</span></h2>
+    </div>
+    <div class="sec-id">INTEL.GENTLE.SHADE</div>
+  </div>
+  <p class="sec-lede">A completely objective, deeply respectful, scientifically rigorous breakdown of our beloved competition.</p>
+
+  <div class="roast-grid">
+    <div class="roast-card" style="--rival-color: #ff4d4d;">
+      <div class="roast-head">
+        <div class="roast-team"><span class="roast-dot"></span>RED</div>
+        <span class="roast-tag">Threat // Spicy</span>
+      </div>
+      <div class="roast-nickname">"Stop sign cosplayers"</div>
+      <div class="roast-body">
+        Look, we get it. Red is the color of fire trucks, ketchup, and that one Power Ranger.
+        Loud, hot, very emotional. We respect the energy. <strong>We just don't respect the strategy.</strong>
+        See you at the finish line — we will leave the porch light on.
+      </div>
+    </div>
+
+    <div class="roast-card" style="--rival-color: #ff9933;">
+      <div class="roast-head">
+        <div class="roast-team"><span class="roast-dot"></span>ORANGE</div>
+        <span class="roast-tag">Threat // Mild</span>
+      </div>
+      <div class="roast-nickname">"Red, but make it scared"</div>
+      <div class="roast-body">
+        Orange is what happens when red tries to commit but blinks. It is the color of traffic cones,
+        Cheetos dust, and "we couldn't decide." <strong>Bless their hearts.</strong>
+        They are going to have a wonderful day finishing in the middle.
+      </div>
+    </div>
+
+    <div class="roast-card" style="--rival-color: #ffd633;">
+      <div class="roast-head">
+        <div class="roast-team"><span class="roast-dot"></span>YELLOW</div>
+        <span class="roast-tag">Threat // Glare</span>
+      </div>
+      <div class="roast-nickname">"Walking high-vis vest"</div>
+      <div class="roast-body">
+        We see you. Literally. From space. Yellow is the color of bananas, school buses, and
+        caution tape — three things that go down faster than your team is about to.
+        <strong>Bright doesn't mean fast.</strong> Sorry babes.
+      </div>
+    </div>
+
+    <div class="roast-card" style="--rival-color: #3399ff;">
+      <div class="roast-head">
+        <div class="roast-team"><span class="roast-dot"></span>BLUE</div>
+        <span class="roast-tag">Threat // Lukewarm</span>
+      </div>
+      <div class="roast-nickname">"Mood: literally"</div>
+      <div class="roast-body">
+        Blue is for oceans, sad songs, and what your team is going to be feeling at 4:55 PM
+        when the scores are read. The branding is clean, the energy is calm.
+        <strong>Calm doesn't win Color Wars.</strong> We do.
+      </div>
+    </div>
+
+    <div class="roast-card" style="--rival-color: #b366ff;">
+      <div class="roast-head">
+        <div class="roast-team"><span class="roast-dot"></span>PURPLE</div>
+        <span class="roast-tag">Threat // Loud</span>
+      </div>
+      <div class="roast-nickname">"Drama club captains"</div>
+      <div class="roast-body">
+        Purple talks the most. Purple posts the most. Purple has Opinions. Purple has Theatre.
+        Purple is going to have a <strong>very dramatic time</strong> watching us win.
+        We brought tissues. Royal-purple ones. You're welcome.
+      </div>
+    </div>
+
+    <div class="roast-card self">
+      <div class="roast-head">
+        <div class="roast-team"><span class="roast-dot" style="background:var(--green); box-shadow: 0 0 14px var(--green);"></span>GREEN</div>
+        <span class="roast-tag" style="color: var(--green);">SELF // FACTS</span>
+      </div>
+      <div class="roast-nickname" style="color: var(--green);">"Just built different"</div>
+      <div class="roast-body">
+        Green is money. Green is go. Green is the color of every dollar bill and every traffic light
+        that means <strong>get out of our way</strong>. The other five are picking outfits.
+        We are picking up the trophy.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="mascot">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow">Team Mascot</div>
+      <h2 class="sec-title">Meet <span class="accent">Overclock</span></h2>
+    </div>
+    <div class="sec-id">UNIT.ID: GM-001</div>
+  </div>
+
+  <div class="mascot-feature">
+    <div class="mascot-art">
+      <img src="assets/green-machine-banner.png" alt="Overclock — Green Machine mascot">
+    </div>
+    <div class="mascot-info">
+      <h3>The face of the <span class="green-text">machine.</span></h3>
+      <p>
+        Overclock doesn't blink. Overclock doesn't tire. Overclock has been training in a basement
+        eating nothing but trail mix and competitive rage since the day Color Wars was announced.
+      </p>
+      <p>
+        When you see Overclock walk onto the field, you are not looking at a costume.
+        You are looking at a <strong style="color: var(--green); font-weight: 600;">prophecy.</strong>
+      </p>
+
+      <div class="mascot-specs">
+        <div class="spec-item">
+          <div class="spec-label">Codename</div>
+          <div class="spec-value">Overclock</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Fueled By</div>
+          <div class="spec-value">Pure Spite</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Finisher</div>
+          <div class="spec-value">Kernel Panic</div>
+        </div>
+        <div class="spec-item">
+          <div class="spec-label">Status</div>
+          <div class="spec-value">▸ Locked In</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOUND SYSTEM: ANTHEM + DISS TRACK -->
+<section id="sound">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow">The Sound System</div>
+      <h2 class="sec-title">Press <span class="accent">Play</span></h2>
+    </div>
+    <div class="sec-id">FREQ: GM.808.HZ</div>
+  </div>
+  <p class="sec-lede">Two tracks loaded and locked. One is the soundtrack of our victory lap. The other is a message to the other five teams.</p>
+
+  <div class="track-stack">
+    <!-- ANTHEM -->
+    <div class="track-card anthem">
+      <button class="play-btn anthem-btn" id="anthemBtn" aria-label="Play anthem"></button>
+      <div class="track-info">
+        <div class="track-tag">▸ Track 01 · Team Anthem</div>
+        <div class="track-title">The Green Machine Pulse</div>
+        <div class="track-sub">For pre-game hype, mid-game momentum, and post-victory celebration.</div>
+        <div class="track-time" id="anthemTime">0:00 / --:--</div>
+      </div>
+      <div class="waveform" id="anthemWave">
+        <span style="height:30%"></span><span style="height:60%"></span><span style="height:45%"></span>
+        <span style="height:80%"></span><span style="height:55%"></span><span style="height:70%"></span>
+        <span style="height:35%"></span><span style="height:90%"></span><span style="height:50%"></span>
+        <span style="height:65%"></span><span style="height:40%"></span><span style="height:75%"></span>
+        <span style="height:55%"></span><span style="height:85%"></span><span style="height:30%"></span>
+        <span style="height:60%"></span><span style="height:70%"></span><span style="height:45%"></span>
+        <span style="height:80%"></span><span style="height:50%"></span><span style="height:65%"></span>
+        <span style="height:75%"></span><span style="height:40%"></span><span style="height:55%"></span>
+      </div>
+      <audio id="anthemAudio" class="track" preload="metadata" src="assets/green-machine-anthem.mp3"></audio>
+    </div>
+
+    <!-- DISS TRACK -->
+    <div class="track-card diss">
+      <button class="play-btn diss-btn" id="dissBtn" aria-label="Play diss track"></button>
+      <div class="track-info">
+        <div class="track-tag">▸ Track 02 · Diss Track</div>
+        <div class="track-title">Dedicated to the Other Five</div>
+        <div class="track-sub">With love, with bars, with a body count. Play loud at your own risk.</div>
+        <div class="track-time" id="dissTime">0:00 / --:--</div>
+      </div>
+      <div class="waveform" id="dissWave">
+        <span style="height:70%"></span><span style="height:40%"></span><span style="height:85%"></span>
+        <span style="height:50%"></span><span style="height:75%"></span><span style="height:35%"></span>
+        <span style="height:90%"></span><span style="height:55%"></span><span style="height:65%"></span>
+        <span style="height:45%"></span><span style="height:80%"></span><span style="height:30%"></span>
+        <span style="height:70%"></span><span style="height:60%"></span><span style="height:85%"></span>
+        <span style="height:40%"></span><span style="height:75%"></span><span style="height:50%"></span>
+        <span style="height:65%"></span><span style="height:90%"></span><span style="height:45%"></span>
+        <span style="height:80%"></span><span style="height:55%"></span><span style="height:70%"></span>
+      </div>
+      <audio id="dissAudio" class="track" preload="metadata" src="assets/green-machine-diss.mp3"></audio>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow">The Battle Cry</div>
+      <h2 class="sec-title">Hear <span class="accent">Us Coming</span></h2>
+    </div>
+    <div class="sec-id">VOX.GM.LOUD</div>
+  </div>
+
+  <div class="battlecry">
+    <div class="cry-label">▸ ON YOUR SIGNAL · ALL VOICES · MAX VOLUME</div>
+    <div class="cry-text">
+      Too Fast! <span class="accent">Too Kleen!</span>
+    </div>
+    <div class="cry-call">GREEN · MA · CHINE!</div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow">What We Bring</div>
+      <h2 class="sec-title">Green <span class="accent">Energy</span></h2>
+    </div>
+    <div class="sec-id">PWR.OUTPUT.MAX</div>
+  </div>
+
+  <div class="gallery-grid">
+    <div class="energy-card">
+      <div class="energy-icon">⚡</div>
+      <h4>Pure Voltage</h4>
+      <p>If energy could be bottled, we would be the brand. Our hype level on a calm day is the other teams' peak.</p>
+    </div>
+    <div class="energy-card">
+      <div class="energy-icon">✦</div>
+      <h4>Synchronized Chaos</h4>
+      <p>We are loud, fast, and somehow still organized. The other teams cannot figure out how. We will never tell.</p>
+    </div>
+    <div class="energy-card">
+      <div class="energy-icon">⌬</div>
+      <h4>Strategic Smack Talk</h4>
+      <p>We talk a big game and then we deliver one. The talk is part of the strategy. Catch up.</p>
+    </div>
+    <div class="energy-card">
+      <div class="energy-icon">◈</div>
+      <h4>Style Points</h4>
+      <p>Green from head to toe to laces. The fit is part of the performance. We arrive looking like we already won.</p>
+    </div>
+    <div class="energy-card">
+      <div class="energy-icon">▲</div>
+      <h4>Receipts Ready</h4>
+      <p>After we win, we will remember. Politely. Repeatedly. For weeks. It is a feature, not a bug.</p>
+    </div>
+    <div class="energy-card">
+      <div class="energy-icon">★</div>
+      <h4>Built To Brag</h4>
+      <p>Every team says they are here to have fun. We are here to have fun <em>and</em> rub it in. Both can be true.</p>
+    </div>
+  </div>
+</section>
+
+<section id="standings">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow">Predicted Final Standings</div>
+      <h2 class="sec-title">How This <span class="accent">Ends</span></h2>
+    </div>
+    <div class="sec-id">FORECAST.97%.CONF</div>
+  </div>
+  <p class="sec-lede">Our analytics team (one very confident person) ran the numbers. The results may surprise you. They will not surprise us.</p>
+
+  <div class="standings">
+    <div class="standings-row first">
+      <div class="stand-place">01</div>
+      <div class="stand-team">
+        <span class="stand-dot" style="background:var(--green); box-shadow: 0 0 14px var(--green);"></span>
+        <div class="stand-team-info">
+          <div class="stand-team-name">Green Machine</div>
+          <div class="stand-quip">Hosting the trophy presentation in our group chat.</div>
+        </div>
+      </div>
+      <span class="stand-status gold">★ Champions</span>
+    </div>
+    <div class="standings-row">
+      <div class="stand-place">02</div>
+      <div class="stand-team">
+        <span class="stand-dot" style="background:#b366ff;"></span>
+        <div class="stand-team-info">
+          <div class="stand-team-name">Purple</div>
+          <div class="stand-quip">Will give the most dramatic concession speech.</div>
+        </div>
+      </div>
+      <span class="stand-status cope">Coping</span>
+    </div>
+    <div class="standings-row">
+      <div class="stand-place">03</div>
+      <div class="stand-team">
+        <span class="stand-dot" style="background:#ff4d4d;"></span>
+        <div class="stand-team-info">
+          <div class="stand-team-name">Red</div>
+          <div class="stand-quip">All gas, no podium.</div>
+        </div>
+      </div>
+      <span class="stand-status cope">Loud About It</span>
+    </div>
+    <div class="standings-row">
+      <div class="stand-place">04</div>
+      <div class="stand-team">
+        <span class="stand-dot" style="background:#ffd633;"></span>
+        <div class="stand-team-info">
+          <div class="stand-team-name">Yellow</div>
+          <div class="stand-quip">Visible from space. Not visible on the leaderboard.</div>
+        </div>
+      </div>
+      <span class="stand-status cope">Bright Side</span>
+    </div>
+    <div class="standings-row">
+      <div class="stand-place">05</div>
+      <div class="stand-team">
+        <span class="stand-dot" style="background:#3399ff;"></span>
+        <div class="stand-team-info">
+          <div class="stand-team-name">Blue</div>
+          <div class="stand-quip">Will respond with a thoughtful post-mortem PowerPoint.</div>
+        </div>
+      </div>
+      <span class="stand-status cope">Reflecting</span>
+    </div>
+    <div class="standings-row">
+      <div class="stand-place">06</div>
+      <div class="stand-team">
+        <span class="stand-dot" style="background:#ff9933;"></span>
+        <div class="stand-team-info">
+          <div class="stand-team-name">Orange</div>
+          <div class="stand-quip">Still trying to figure out if they're red or yellow.</div>
+        </div>
+      </div>
+      <span class="stand-status cope">Existential</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand-block">
+      <div class="brand-mark">GM</div>
+      <div>
+        <div style="font-family: var(--display); letter-spacing: 0.08em; font-size: 18px; color: var(--ink);">GREEN MACHINE</div>
+        <div class="footer-tag">Online · Calibrated · Unbothered</div>
+      </div>
+    </div>
+    <div class="footer-slogan">"Too Fast. Too Kleen."</div>
+  </div>
+</footer>
+
+<script>
+  // ============ SMOOTH SCROLL for nav links ============
+  document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      const href = link.getAttribute('href');
+      if (href === '#' || href === '') return;
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ============ COUNTDOWN ============
+  const target = new Date('2026-06-02T13:00:00').getTime();
+  function updateCountdown() {
+    const diff = target - Date.now();
+    if (diff <= 0) {
+      ['days','hours','mins','secs'].forEach(k => document.getElementById('cd-'+k).textContent = '00');
+      document.getElementById('cd-secs').textContent = 'GO';
+      return;
+    }
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff / 3600000) % 24);
+    const mins = Math.floor((diff / 60000) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+    document.getElementById('cd-days').textContent = String(days).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(mins).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // ============ AUDIO PLAYERS ============
+  function formatTime(seconds) {
+    if (!isFinite(seconds)) return '--:--';
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m}:${String(s).padStart(2,'0')}`;
+  }
+
+  function wirePlayer(btnId, waveId, audioId, timeId) {
+    const btn = document.getElementById(btnId);
+    const wave = document.getElementById(waveId);
+    const audio = document.getElementById(audioId);
+    const time = document.getElementById(timeId);
+
+    btn.addEventListener('click', () => {
+      if (audio.paused) audio.play().catch(err => console.warn('Playback failed:', err));
+      else audio.pause();
+    });
+
+    audio.addEventListener('play', () => {
+      btn.classList.add('playing');
+      wave.classList.add('active');
+      [...wave.children].forEach(bar => {
+        bar.style.animationDelay = (Math.random() * 1.4) + 's';
+      });
+    });
+    audio.addEventListener('pause', () => {
+      btn.classList.remove('playing');
+      wave.classList.remove('active');
+    });
+    audio.addEventListener('ended', () => {
+      btn.classList.remove('playing');
+      wave.classList.remove('active');
+    });
+    audio.addEventListener('loadedmetadata', () => {
+      time.textContent = `0:00 / ${formatTime(audio.duration)}`;
+    });
+    audio.addEventListener('timeupdate', () => {
+      time.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+    });
+  }
+
+  wirePlayer('anthemBtn', 'anthemWave', 'anthemAudio', 'anthemTime');
+  wirePlayer('dissBtn', 'dissWave', 'dissAudio', 'dissTime');
+
+  // Only one track plays at a time
+  const tracks = document.querySelectorAll('audio.track');
+  tracks.forEach(audio => {
+    audio.addEventListener('play', () => {
+      tracks.forEach(other => { if (other !== audio) other.pause(); });
+    });
+  });
+</script>
+
+</body>
+</html>
