@@ -349,6 +349,36 @@
     font-size: 13px;
   }
 
+  .copy-link-btn {
+    margin-top: 12px;
+    background: rgba(0, 255, 136, 0.08);
+    border: 1px solid var(--border-strong);
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+  }
+  .copy-link-btn:hover {
+    background: var(--green);
+    color: var(--bg);
+    border-color: var(--green);
+    box-shadow: 0 0 16px var(--green-glow);
+  }
+  .copy-link-btn.copied {
+    background: var(--green);
+    color: var(--bg);
+    border-color: var(--green);
+  }
+  .copy-icon { font-size: 12px; }
+
   .news-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -356,8 +386,8 @@
   }
 
   .news-main {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: rgba(8, 14, 11, 0.7);
+    border: 1px solid var(--border-strong);
     border-radius: 20px;
     padding: 40px;
     backdrop-filter: blur(16px);
@@ -367,15 +397,15 @@
     gap: 16px;
   }
   .news-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
+    background: rgba(8, 14, 11, 0.7);
+    border: 1px solid var(--border-strong);
     border-radius: 16px;
     padding: 24px;
     backdrop-filter: blur(16px);
     transition: all 0.25s ease;
   }
   .news-card:hover {
-    border-color: var(--border-strong);
+    border-color: var(--green);
     transform: translateY(-2px);
   }
   .news-category {
@@ -411,16 +441,17 @@
     font-style: italic;
   }
   .news-body {
-    color: var(--ink-2);
-    font-size: 14px;
-    line-height: 1.7;
+    color: #f0f5ee;
+    font-size: 15px;
+    line-height: 1.75;
+    font-weight: 400;
   }
   .news-body p { margin-bottom: 14px; }
-  .news-body strong { color: var(--green); font-weight: 600; }
+  .news-body strong { color: var(--green); font-weight: 700; }
   .news-body em {
     color: var(--lime);
     font-style: italic;
-    font-weight: 500;
+    font-weight: 600;
   }
   .news-pull {
     font-family: var(--display);
@@ -434,6 +465,75 @@
     background: rgba(0, 255, 136, 0.04);
     border-radius: 0 12px 12px 0;
     font-style: italic;
+  }
+
+  /* News photo */
+  .news-photo {
+    margin: 28px 0 8px;
+  }
+  .news-photo-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-strong);
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .news-photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .news-photo-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    color: var(--ink-dim);
+    text-align: center;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(0, 255, 136, 0.03),
+      rgba(0, 255, 136, 0.03) 12px,
+      transparent 12px,
+      transparent 24px
+    );
+  }
+  .news-photo-frame:not(.empty) .news-photo-fallback { display: none; }
+  .news-photo-icon { font-size: 40px; opacity: 0.5; }
+  .news-photo-text {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    color: var(--green);
+  }
+  .news-photo-text span {
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-top: 6px;
+  }
+  .news-photo figcaption {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.05em;
+    margin-top: 12px;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .news-photo figcaption em {
+    font-style: italic;
+    color: var(--ink-dim);
   }
 
   /* Weather forecast widget */
@@ -1226,6 +1326,10 @@
       <strong>Vol. 1 · Issue 1</strong>
       Published by Green Machine<br>
       Circulation: Everyone Who Matters
+      <button class="copy-link-btn" onclick="copySectionLink('newsletter', this)">
+        <span class="copy-icon">🔗</span>
+        <span class="copy-text">Copy Newsletter Link</span>
+      </button>
     </div>
   </div>
 
@@ -1268,6 +1372,17 @@
           When asked for comment, Green Machine simply pointed at the trophy case and walked away. <strong>The
           machine does not explain itself.</strong>
         </p>
+
+        <figure class="news-photo">
+          <div class="news-photo-frame">
+            <img src="newsletter-photo.png" alt="Green Machine in action" onerror="this.parentElement.classList.add('empty');">
+            <div class="news-photo-fallback">
+              <div class="news-photo-icon">📸</div>
+              <div class="news-photo-text">PHOTO PENDING<br><span>newsletter-photo.png</span></div>
+            </div>
+          </div>
+          <figcaption>FILE PHOTO · Green Machine, moments before another decisive victory. <em>(Photo released by Green Machine Press Office.)</em></figcaption>
+        </figure>
       </div>
     </article>
 
@@ -1303,7 +1418,7 @@
       <div class="news-card">
         <span class="news-category classified">▸ Classifieds</span>
         <h4 class="news-headline small">Help Wanted & Personal Ads</h4>
-        <div class="news-body" style="font-size: 13px;">
+        <div class="news-body" style="font-size: 14px;">
           <p>
             <strong>WANTED:</strong> Someone to hold our trophy for a quick photo. Must be willing to immediately
             give it back. Other teams need not apply.
@@ -1357,7 +1472,7 @@
       <div class="news-card">
         <span class="news-category">▸ Horoscope</span>
         <h4 class="news-headline small">Your Stars This Week</h4>
-        <div class="news-body" style="font-size: 13px;">
+        <div class="news-body" style="font-size: 14px;">
           <p>
             <strong>Green:</strong> Mercury is in your corner. So is Mars. So is the trophy. Lucky number: <em>1st place.</em>
           </p>
@@ -1629,6 +1744,37 @@
 </footer>
 
 <script>
+  // ============ COPY SECTION LINK ============
+  function copySectionLink(sectionId, btn) {
+    const url = window.location.origin + window.location.pathname + '#' + sectionId;
+    navigator.clipboard.writeText(url).then(() => {
+      const textEl = btn.querySelector('.copy-text');
+      const originalText = textEl.textContent;
+      textEl.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        textEl.textContent = originalText;
+        btn.classList.remove('copied');
+      }, 2000);
+    }).catch(err => {
+      console.warn('Copy failed:', err);
+      // Fallback for older browsers / file:// URLs
+      const tempInput = document.createElement('input');
+      tempInput.value = url;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(tempInput);
+      const textEl = btn.querySelector('.copy-text');
+      textEl.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        textEl.textContent = 'Copy Newsletter Link';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+
   // ============ SMOOTH SCROLL for nav links ============
   document.querySelectorAll('nav a[href^="#"]').forEach(link => {
     link.addEventListener('click', e => {
