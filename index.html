@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Green Machine // Too Fast. Too Kleen.</title>
+<title>Green Machine // Too Fast. Too Keen.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -224,6 +224,293 @@
     letter-spacing: 0.04em;
     font-style: italic;
   }
+
+  /* AI STATUS REPORT */
+  .status-report {
+    max-width: 920px;
+    margin: 80px auto 0;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 20px;
+    padding: 32px;
+    backdrop-filter: blur(16px);
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+  .status-report::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at top right, rgba(0, 255, 136, 0.08), transparent 60%);
+    pointer-events: none;
+  }
+  .status-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .status-pulse {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 14px var(--green);
+    animation: pulse 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  .status-tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--green);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .status-title {
+    font-family: var(--display);
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+  }
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    position: relative;
+  }
+  .status-metric {
+    border-left: 2px solid var(--green);
+    padding-left: 16px;
+  }
+  .metric-icon {
+    font-size: 20px;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+  .metric-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .metric-value {
+    font-family: var(--display);
+    font-size: 24px;
+    color: var(--green);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    margin-bottom: 10px;
+  }
+  .metric-bar {
+    height: 3px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .metric-bar > div {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green-deep), var(--green));
+    border-radius: 999px;
+    box-shadow: 0 0 8px var(--green);
+  }
+
+  /* NEWSLETTER / DISPATCH */
+  .news-issue {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--green);
+    flex-wrap: wrap;
+  }
+  .news-masthead {
+    font-family: var(--display);
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+  .news-masthead .accent { color: var(--green); font-style: italic; }
+  .news-issue-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    text-align: right;
+    line-height: 1.6;
+  }
+  .news-issue-meta strong {
+    color: var(--green);
+    display: block;
+    font-size: 13px;
+  }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+  }
+
+  .news-main {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    backdrop-filter: blur(16px);
+  }
+  .news-side {
+    display: grid;
+    gap: 16px;
+  }
+  .news-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(16px);
+    transition: all 0.25s ease;
+  }
+  .news-card:hover {
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
+  }
+  .news-category {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 10px;
+    display: inline-block;
+    padding: 3px 10px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    background: rgba(0, 255, 136, 0.06);
+  }
+  .news-category.urgent { color: var(--lime); border-color: rgba(201, 255, 58, 0.4); background: rgba(201, 255, 58, 0.08); }
+  .news-category.classified { color: #ff6b9d; border-color: rgba(255, 107, 157, 0.4); background: rgba(255, 107, 157, 0.06); }
+  .news-headline {
+    font-family: var(--display);
+    font-size: 28px;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 12px;
+    letter-spacing: 0.01em;
+  }
+  .news-headline.small { font-size: 20px; }
+  .news-byline {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+  .news-body {
+    color: var(--ink-2);
+    font-size: 14px;
+    line-height: 1.7;
+  }
+  .news-body p { margin-bottom: 14px; }
+  .news-body strong { color: var(--green); font-weight: 600; }
+  .news-body em {
+    color: var(--lime);
+    font-style: italic;
+    font-weight: 500;
+  }
+  .news-pull {
+    font-family: var(--display);
+    font-size: 22px;
+    color: var(--green);
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    padding: 20px 24px;
+    margin: 20px 0;
+    border-left: 4px solid var(--green);
+    background: rgba(0, 255, 136, 0.04);
+    border-radius: 0 12px 12px 0;
+    font-style: italic;
+  }
+
+  /* Weather forecast widget */
+  .news-weather {
+    background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), var(--surface));
+    border: 1px solid var(--border-strong);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(16px);
+  }
+  .weather-day {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 13px;
+  }
+  .weather-day:last-child { border-bottom: none; }
+  .weather-day-name {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .weather-day-forecast {
+    color: var(--ink);
+    text-align: right;
+    flex: 1;
+    margin-left: 16px;
+  }
+  .weather-day-forecast .icon {
+    margin-right: 6px;
+    font-size: 14px;
+  }
+
+  /* Stock ticker style */
+  .ticker {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 16px;
+    overflow: hidden;
+  }
+  .ticker-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--green);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .ticker-label::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  .ticker-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-family: var(--mono);
+    font-size: 12px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .ticker-row:last-child { border-bottom: none; }
+  .ticker-symbol { color: var(--ink); font-weight: 600; }
+  .ticker-up { color: var(--green); }
+  .ticker-down { color: #ff6b9d; }
 
   section {
     max-width: 1440px;
@@ -715,6 +1002,9 @@
     .stand-place { font-size: 32px; }
     .standings-row.first .stand-place { font-size: 40px; }
     .battlecry { padding: 60px 24px; }
+    .news-grid { grid-template-columns: 1fr; }
+    .news-main { padding: 28px 24px; }
+    .news-issue-meta { text-align: left; }
   }
   @media (max-width: 600px) {
     .nav-inner { padding: 12px 20px; }
@@ -738,6 +1028,7 @@
     <ul class="nav-links">
       <li><a href="#manifesto">Manifesto</a></li>
       <li><a href="#roast">The Other Five</a></li>
+      <li><a href="#newsletter">Newsletter</a></li>
       <li><a href="#mascot">Overclock</a></li>
       <li><a href="#sound">Sound System</a></li>
       <li><a href="#standings">Standings</a></li>
@@ -751,7 +1042,7 @@
 
 <header class="hero" id="top">
   <div class="hero-banner-wrap">
-    <img src="green-machine-banner.png" alt="Green Machine — Too Fast. Too Kleen.">
+    <img src="green-machine-banner.png" alt="Green Machine — Too Fast. Too Keen.">
   </div>
 
   <div class="tminus-bar">
@@ -788,7 +1079,44 @@
       of this company wish they had been smart enough to wear our color.
     </p>
   </div>
-  <div class="manifesto-slogan">"Too Fast. Too Kleen."</div>
+  <div class="manifesto-slogan">"Too Fast. Too Keen."</div>
+
+  <!-- AI STATUS READOUT -->
+  <div class="status-report">
+    <div class="status-header">
+      <span class="status-pulse"></span>
+      <div class="status-header-text">
+        <div class="status-tag">▸ Live System Readout</div>
+        <div class="status-title">Green Machine AI · Core Diagnostics</div>
+      </div>
+    </div>
+    <div class="status-grid">
+      <div class="status-metric">
+        <div class="metric-icon">⚡</div>
+        <div class="metric-label">Speed</div>
+        <div class="metric-value">Maximum</div>
+        <div class="metric-bar"><div style="width: 100%"></div></div>
+      </div>
+      <div class="status-metric">
+        <div class="metric-icon">🧠</div>
+        <div class="metric-label">Intelligence</div>
+        <div class="metric-value">Keen</div>
+        <div class="metric-bar"><div style="width: 100%"></div></div>
+      </div>
+      <div class="status-metric">
+        <div class="metric-icon">◈</div>
+        <div class="metric-label">Style</div>
+        <div class="metric-value">Unmatched</div>
+        <div class="metric-bar"><div style="width: 98%"></div></div>
+      </div>
+      <div class="status-metric">
+        <div class="metric-icon">★</div>
+        <div class="metric-label">Win Probability</div>
+        <div class="metric-value">99.9%</div>
+        <div class="metric-bar"><div style="width: 99%"></div></div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="roast">
@@ -879,6 +1207,166 @@
         We are picking up the trophy.
       </div>
     </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter">
+  <div class="sec-head">
+    <div>
+      <div class="sec-eyebrow">Issue No. 001</div>
+      <h2 class="sec-title">The Green <span class="accent">Gazette</span></h2>
+    </div>
+    <div class="sec-id">PRESS.GM.DAILY</div>
+  </div>
+
+  <div class="news-issue">
+    <div class="news-masthead">All The News That's <span class="accent">Fit To Win</span></div>
+    <div class="news-issue-meta">
+      <strong>Vol. 1 · Issue 1</strong>
+      Published by Green Machine<br>
+      Circulation: Everyone Who Matters
+    </div>
+  </div>
+
+  <div class="news-grid">
+    <!-- MAIN STORY -->
+    <article class="news-main">
+      <span class="news-category urgent">▸ Breaking</span>
+      <h3 class="news-headline">Local Team Discovered To Be Made Of Pure Speed And Bad Intentions, Scientists Bewildered</h3>
+      <div class="news-byline">By Our Field Correspondent · Filed From The Lead Position</div>
+      <div class="news-body">
+        <p>
+          In a development that has shocked absolutely no one on Green Team and devastated everyone on the
+          other five, researchers at the Color Wars Institute of Advanced Whatever-ology have confirmed that
+          <strong>Green Machine is, in fact, just built different.</strong>
+        </p>
+        <p>
+          "We ran the numbers seventeen times," said one scientist, who asked not to be named because she is
+          also on Green Team. "Every simulation ended the same way: us, hoisting the trophy. The other teams,
+          processing their feelings."
+        </p>
+
+        <div class="news-pull">
+          "We came. We saw. We're about to absolutely cook everybody. Tuesday cannot come fast enough."
+        </div>
+
+        <p>
+          Sources close to Purple Team report that they have already begun rehearsing their concession speech.
+          Red Team has reportedly been seen "yelling, but with confidence." Orange Team is, per multiple
+          witnesses, <em>still trying to figure out if they're red or yellow.</em>
+        </p>
+        <p>
+          Yellow Team declined to comment, though one member was overheard saying "we are the bright side
+          of this competition," which is, scientifically speaking, the saddest thing anyone has ever said.
+        </p>
+        <p>
+          Blue Team has begun preparing a 47-slide post-mortem PowerPoint for their inevitable second place
+          finish — sorry, <em>fifth place finish</em> — sources confirm slide 12 is titled "Where Did It All Go Wrong."
+        </p>
+        <p>
+          When asked for comment, Green Machine simply pointed at the trophy case and walked away. <strong>The
+          machine does not explain itself.</strong>
+        </p>
+      </div>
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside class="news-side">
+      <div class="news-card">
+        <span class="news-category">▸ Weather</span>
+        <h4 class="news-headline small">Forecast: 100% Chance of Us Winning</h4>
+        <div class="news-weather" style="border:none; padding: 0; background: none;">
+          <div class="weather-day">
+            <span class="weather-day-name">Tuesday</span>
+            <span class="weather-day-forecast"><span class="icon">☀️</span>Sunny with a 100% chance of green</span>
+          </div>
+          <div class="weather-day">
+            <span class="weather-day-name">1:00 PM</span>
+            <span class="weather-day-forecast"><span class="icon">⚡</span>Scattered showers of trash talk</span>
+          </div>
+          <div class="weather-day">
+            <span class="weather-day-name">3:00 PM</span>
+            <span class="weather-day-forecast"><span class="icon">🔥</span>Heat wave, courtesy of us</span>
+          </div>
+          <div class="weather-day">
+            <span class="weather-day-name">5:00 PM</span>
+            <span class="weather-day-forecast"><span class="icon">🏆</span>Trophy precipitation incoming</span>
+          </div>
+          <div class="weather-day">
+            <span class="weather-day-name">After 5 PM</span>
+            <span class="weather-day-forecast"><span class="icon">😭</span>Heavy tears, other teams only</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-card">
+        <span class="news-category classified">▸ Classifieds</span>
+        <h4 class="news-headline small">Help Wanted & Personal Ads</h4>
+        <div class="news-body" style="font-size: 13px;">
+          <p>
+            <strong>WANTED:</strong> Someone to hold our trophy for a quick photo. Must be willing to immediately
+            give it back. Other teams need not apply.
+          </p>
+          <p>
+            <strong>LOST:</strong> Purple Team's dignity. Last seen Tuesday at 4:55 PM. Reward offered.
+          </p>
+          <p>
+            <strong>FOR SALE:</strong> Slightly used "We Tried Our Best" participation ribbons. Five available.
+            Will throw in free copium.
+          </p>
+          <p>
+            <strong>MISSING:</strong> Any reason to believe the other teams have a chance. If found, please
+            return to common sense.
+          </p>
+        </div>
+      </div>
+
+      <div class="news-card">
+        <span class="news-category">▸ Markets</span>
+        <h4 class="news-headline small">Color Wars Stock Exchange</h4>
+        <div class="ticker">
+          <div class="ticker-label">Live Standings · As Of Now</div>
+          <div class="ticker-row">
+            <span class="ticker-symbol">$GREEN</span>
+            <span class="ticker-up">▲ +999.9%</span>
+          </div>
+          <div class="ticker-row">
+            <span class="ticker-symbol">$PRPL</span>
+            <span class="ticker-down">▼ -42.0%</span>
+          </div>
+          <div class="ticker-row">
+            <span class="ticker-symbol">$RED&nbsp;</span>
+            <span class="ticker-down">▼ -38.0%</span>
+          </div>
+          <div class="ticker-row">
+            <span class="ticker-symbol">$YLLW</span>
+            <span class="ticker-down">▼ -55.0%</span>
+          </div>
+          <div class="ticker-row">
+            <span class="ticker-symbol">$BLUE</span>
+            <span class="ticker-down">▼ -61.0%</span>
+          </div>
+          <div class="ticker-row">
+            <span class="ticker-symbol">$ORNG</span>
+            <span class="ticker-down">▼ HALTED</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-card">
+        <span class="news-category">▸ Horoscope</span>
+        <h4 class="news-headline small">Your Stars This Week</h4>
+        <div class="news-body" style="font-size: 13px;">
+          <p>
+            <strong>Green:</strong> Mercury is in your corner. So is Mars. So is the trophy. Lucky number: <em>1st place.</em>
+          </p>
+          <p>
+            <strong>Everyone Else:</strong> Mercury is in retrograde. So is your performance. So are your hopes. Lucky number: <em>participation.</em>
+          </p>
+        </div>
+      </div>
+    </aside>
   </div>
 </section>
 
@@ -998,7 +1486,7 @@
   <div class="battlecry">
     <div class="cry-label">▸ ON YOUR SIGNAL · ALL VOICES · MAX VOLUME</div>
     <div class="cry-text">
-      Too Fast! <span class="accent">Too Kleen!</span>
+      Too Fast! <span class="accent">Too Keen!</span>
     </div>
     <div class="cry-call">GREEN · MA · CHINE!</div>
   </div>
@@ -1136,7 +1624,7 @@
         <div class="footer-tag">Online · Calibrated · Unbothered</div>
       </div>
     </div>
-    <div class="footer-slogan">"Too Fast. Too Kleen."</div>
+    <div class="footer-slogan">"Too Fast. Too Keen."</div>
   </div>
 </footer>
 
